@@ -1,4 +1,15 @@
 QuickROMBuilder
 ===============
 
-All-In-One script to repo sync, pull a changelog, and build a ROM
+**Important**
+
+Make sure this is in your build folder!
+
+How-to
+------
+
+**How to run this:**
+
+cd into your ROM folder and enter the following:
+
+    . build/QuickRomBuilder.sh
