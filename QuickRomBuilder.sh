@@ -48,6 +48,37 @@ todaysDate= $(date +"%B %d`DaySuffix`, %Y")
 
 # }
 
+
+welcomeDisplay () {
+clear
+
+sleep 0.5
+echo "############################################################"
+sleep 0.5
+echo "#                                                          #"
+sleep 0.5
+echo "#                                                          #"
+sleep 0.5
+echo "#                   | --------------- |                    #"
+sleep 0.5
+echo "#                   |   Welcome to:   |                    #"
+sleep 0.5
+echo "#                   |                 |                    #"
+sleep 0.5
+echo "#                   | QuickROMBuilder |                    #"
+sleep 0.5
+echo "#                   | --------------- |                    #"
+sleep 0.5
+echo "#                                                          #"
+sleep 0.5
+echo "#                                                          #"
+sleep 0.5
+echo "############################################################"
+sleep 0.5
+
+sleep 3
+
+}
 # My original code
 askUserToRoot () {
 # echo " "
@@ -167,17 +198,21 @@ echo " "
 read askToRepoSyncAnswer
 
 if [ $askToRepoSyncAnswer == "yes" ]
-then echo "Please specify how many jobs per thread you'd like to use when repo syncing, followed by [ENTER]"
+then echo " "
+echo "Please specify how many jobs per thread you'd like to use when repo syncing,"
+echo "followed by [ENTER]"
 echo " "
 
 read jobsPerThreadRepoSync
 
 # $jobsPerThreadRepoSync=$jobsPerThread
-
+sleep 2
+echo " "
 echo "Repo syncing ( with --force-broken, and using $jobsPerThreadRepoSync jobs per thread)"
-sleep 1.35
+sleep 1.75
 
 repo sync -f -j$jobsPerThreadRepoSync
+
 echo -ne '\n'
 
 elif [ $askToRepoSyncAnswer == "no" ]
@@ -232,9 +267,24 @@ if [ ! -d build/Changelog ]
 fi
 }
 
+startBuilding () {
+. build/envsetup.sh
+lunch "$chosenDeviceNumber" # -j$jobsPerThread
+mka bacon -j$jobsPerThread
+}
+
+showBuildStuff () {
+# echo " "
+clear
+echo "Starting the build for $TARGET_PRODUCT..."
+sleep 2
+
+startBuilding
+
+}
+
 buildInitiate () {
 echo " "
-
 echo "Please enter the number of the device you'd like to build for: "
 
 read chosenDeviceNumber
@@ -260,15 +310,20 @@ echo " "
 # then optionChosenMake
 # fi
 
+clear
+
 echo "Initiating build..."
 echo " "
-sleep 3
+sleep 2
+
+showBuildStuff
 
 # showBuildInfo
 
-. build/envsetup.sh
-lunch "$chosenDeviceNumber" # -j$jobsPerThread
-mka bacon -j$jobsPerThread
+# . build/envsetup.sh
+# lunch "$chosenDeviceNumber" # -j$jobsPerThread
+# echo "$TARGET_PRODUCT"
+# mka bacon -j$jobsPerThread
 # echo -ne '\n'
 
 }
@@ -291,8 +346,8 @@ if [ $changelogYesOrNo = "yes" ]
    
    echo "Pulling a changelog from today..."
    echo " "
-   echo "Today's date: "
-   echo "$todaysDate"
+#  echo "Today's date: "
+#  echo "$todaysDate"
    sleep 2
    cd build
    cd Changelogs
@@ -306,18 +361,39 @@ if [ $changelogYesOrNo = "yes" ]
 fi
 
 if [ $changelogYesOrNo = "no" ]
-   then echo " "
-   echo "Okay"
-   echo " "
-   sleep 2
-#  echo " "
-   echo "Continuing..."
+elif [ $askToRepoSyncAnswer == "no" ]
+then echo " "
+echo "Okay. Continuing..."
+echo " "
    sleep 2
 fi  
 
 }
 
-clear
+
+# WIP
+# checkIfChangelogExists () {
+# if [ -e ChangelogGUI.sh ]
+#    then echo "FOUND IT"
+
+# elif [ ! -e ChangelogGUI.sh ]
+#    then echo "Should I download my ChangelogGUI script?"
+# }
+
+# changeLoggerStuff () {
+# echo "Would you like to download a modified version of my ChangelogGUI script?"
+# echo "Enter yes or no, followed by [ENTER] "
+
+# read changelogScriptAnswer
+
+# if [ $changelogScriptAnswer == "yes" ]
+#    then checkIfChangelogExists
+#    fi
+# }
+
+
+
+# clear
 
 # writeFile
 
@@ -331,6 +407,9 @@ clear
 # echo " "
 # sleep 1.5
 
+# Show the neat little welcome display thing
+welcomeDisplay
+
 # Check if user is running this as root
 checkForSudo
 
@@ -340,10 +419,19 @@ askToRepoSync
 # Ask the user if they want to pull a changelog from today
 askToPullChangelog
 
+
+# WIP:
+# THIS is the newer, more logical code. :)
+# changeLoggerStuff
+
 # Initiate the rest of the stuff
 buildInitiate
 
 
 # QuickRomBuilder
-# Version 1
-# Made by Kyler Jeffrey, aka I Am Reinvented on August 20th, 2014
+# Version 1.1
+
+# Made by Kyler Jeffrey, aka 'I Am Reinvented' (https://github.com/I-am-Reinvented/)
+# Feel free to use this as you please, just make sure to give the proper credit. :)
+
+# initially created on August 20th, 2014
