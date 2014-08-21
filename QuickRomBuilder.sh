@@ -24,8 +24,6 @@ GREP="/bin/grep"
 
 ROMConfig="quickrombuild"
 
-# dateText="Today's Date"
-
 DaySuffix() {
   case `date +%d` in
     1|21|31) echo "st";;
@@ -39,14 +37,6 @@ DaySuffix() {
 # http://stackoverflow.com/a/21370675/3803515
 
 todaysDate= $(date +"%B %d`DaySuffix`, %Y")
-
-# $url=http://reinvented.t15.org/ChangelogGUI.sh
-
-# writeFile() {
-
-# wget "http://reinvented.t15.org/ChangelogGUI.sh"
-
-# }
 
 
 welcomeDisplay () {
@@ -81,7 +71,6 @@ sleep 3
 }
 # My original code
 askUserToRoot () {
-# echo " "
 echo "Would you like to run as root?"
 echo " "
 echo "Enter yes or no, followed by [ENTER]"
@@ -98,7 +87,7 @@ if [ $Answer = "yes" ]
    echo " "
    sleep 2
    sudo -i
-# fi
+   
 elif [ $Answer = "no" ]
    then echo " "
    echo "Exiting..."
@@ -144,9 +133,6 @@ sleep 1.5
 fi
 
 cd ..
-
-# "mka bacon -j$jobsPerThread"
-#  echo -ne '\n'
 }
 
 optionChosenMka () {
@@ -168,14 +154,11 @@ sleep 1.5
 fi
 
 cd ..
-# "make -j$jobsPerThread"
-# echo -ne '\n'
 }
 
 showBuildInfo () {
 clear
 
-# echo "Building a ROM for the $DEVICE..."
 echo " "
 sleep 3
 
@@ -188,7 +171,7 @@ jobsPerThreadRepoSync () {
 
 askToRepoSync () {
 clear
-# echo " "
+
 echo "Would you like to repo sync before getting started?"
 echo " "
 
@@ -205,7 +188,6 @@ echo " "
 
 read jobsPerThreadRepoSync
 
-# $jobsPerThreadRepoSync=$jobsPerThread
 sleep 2
 echo " "
 echo "Repo syncing ( with --force-broken, and using $jobsPerThreadRepoSync jobs per thread)"
@@ -235,22 +217,17 @@ if [ "$(id -u)" != "0" ];
    echo "This script must be run as root" 1>&2
    echo " "
    askUserToRoot
-#  echo "Exiting..."
-#  sleep 2
-#  exit 1
+   
 elif [ "$(id -u)" != "1" ];
    then echo "Root found!"
    sleep 1.5
    echo " "
    echo "Continuing..."
-#  echo " "
-   sleep 1.5
    
+   sleep 1.5
 fi
-
 # Source: http://www.cyberciti.biz/tips/shell-root-user-check-script.html
 # Edited by me though to fix an error and add a line of code
-
 }
 
 checkForChangelogFolder () {
@@ -269,13 +246,13 @@ fi
 
 startBuilding () {
 . build/envsetup.sh
-lunch "$chosenDeviceNumber" # -j$jobsPerThread
+lunch "$chosenDeviceNumber"
 mka bacon -j$jobsPerThread
 }
 
 showBuildStuff () {
-# echo " "
 clear
+
 echo "Starting the build for $TARGET_PRODUCT..."
 sleep 2
 
@@ -289,26 +266,12 @@ echo "Please enter the number of the device you'd like to build for: "
 
 read chosenDeviceNumber
 
-# $chosenDeviceNumber=$chosenDeviceNumber
-
 echo " "
 echo "Please enter how many jobs per thread you'd like to build with: "
 
 read jobsPerThread
 
 echo " "
-# echo "Please enter mka or make: "
-
-# read mkaOrmake
-
-# if [ $mkaOrmake = "mka" ]
-   # then optionChosenMka
-#  then echo "mka bacon -j$jobsPerThread"
-#  echo -ne '\n'
-   
-# elif [ $mkaOrMake = "make" ]
-# then optionChosenMake
-# fi
 
 clear
 
@@ -317,14 +280,6 @@ echo " "
 sleep 2
 
 showBuildStuff
-
-# showBuildInfo
-
-# . build/envsetup.sh
-# lunch "$chosenDeviceNumber" # -j$jobsPerThread
-# echo "$TARGET_PRODUCT"
-# mka bacon -j$jobsPerThread
-# echo -ne '\n'
 
 }
 
@@ -338,7 +293,7 @@ echo " "
 read changelogYesOrNo
 
 if [ $changelogYesOrNo = "yes" ]
-   # echo " "
+
    then echo "Okay!"
    echo " "
    checkForChangelogFolder
@@ -346,8 +301,7 @@ if [ $changelogYesOrNo = "yes" ]
    
    echo "Pulling a changelog from today..."
    echo " "
-#  echo "Today's date: "
-#  echo "$todaysDate"
+   
    sleep 2
    cd build
    cd Changelogs
@@ -369,43 +323,6 @@ echo " "
 fi  
 
 }
-
-
-# WIP
-# checkIfChangelogExists () {
-# if [ -e ChangelogGUI.sh ]
-#    then echo "FOUND IT"
-
-# elif [ ! -e ChangelogGUI.sh ]
-#    then echo "Should I download my ChangelogGUI script?"
-# }
-
-# changeLoggerStuff () {
-# echo "Would you like to download a modified version of my ChangelogGUI script?"
-# echo "Enter yes or no, followed by [ENTER] "
-
-# read changelogScriptAnswer
-
-# if [ $changelogScriptAnswer == "yes" ]
-#    then checkIfChangelogExists
-#    fi
-# }
-
-
-
-# clear
-
-# writeFile
-
-# echo "Hello $USER!"
-# echo " "
-# sleep 2
-
-# echo " "
-
-# echo "Checking for root..."
-# echo " "
-# sleep 1.5
 
 # Show the neat little welcome display thing
 welcomeDisplay
@@ -429,7 +346,7 @@ buildInitiate
 
 
 # QuickRomBuilder
-# Version 1.1
+# Version 1.1.1
 
 # Made by Kyler Jeffrey, aka 'I Am Reinvented' (https://github.com/I-am-Reinvented/)
 # Feel free to use this as you please, just make sure to give the proper credit. :)
